@@ -14,12 +14,18 @@ public class Platform {
         this.height = height;
     }
 
-    public boolean touches(Sprite s) {
+
+    //returns 0 if horizontal 1 if vertical -1 if none
+    public int touches(Sprite s) {
         if ((s.getX() + s.getWidth()) > x && s.getX() < x + width && s.getY() + s.getHeight() > y
                 && s.getY() < y + height) {
-            return true;
+            if(Math.min(Math.abs(x  - s.getX()),Math.abs(x + width - (s.getX() + s.getWidth()))) >= Math.min(Math.abs(y  - s.getY()),Math.abs(y + height - (s.getY() + s.getHeight())))){
+                return 1;
+            }else{
+                return 0;
+            }
         }
-        return false;
+       return -1;
     }
 
     public void draw(Graphics2D g2){

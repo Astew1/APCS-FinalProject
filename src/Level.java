@@ -12,13 +12,13 @@ public class Level {
         platforms.add(new Platform(200,700, 500, 60));
     }
 
-    public boolean touches(Sprite s){
+    public int touches(Sprite s){
         for (Platform platform : platforms) {
-            if(platform.touches(s)){
-                return true;
+            if(platform.touches(s) != -1){
+                return platform.touches(s);
             }
         }
-        return false;
+        return -1;
     }
 
     public void draw(Graphics2D g2){
