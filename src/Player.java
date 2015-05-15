@@ -26,4 +26,8 @@ public class Player extends Sprite {
             jumpCount++;
         }
     }
+
+    public void setJumpCount(int jumpCount) {
+        this.jumpCount = jumpCount;
+    }
 }

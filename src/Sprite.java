@@ -5,7 +5,7 @@ import java.awt.image.ImageObserver;
 /**
  * Created by Zander on 5/12/2015.
  */
-public abstract class Sprite {
+public class Sprite {
 
     private int w, h;
     private double x, y, vX, vY;
@@ -53,8 +53,12 @@ public abstract class Sprite {
 
         if(level.touches(this) == 0){
             vX *= -1;
+            if(this instanceof Player)
+                ((Player)this).setJumpCount(0);
         }else if(level.touches(this) == 1){
             vY *= -1;
+            if(this instanceof Player)
+                ((Player)this).setJumpCount(0);
         }
 
         x += vX;
@@ -77,19 +81,6 @@ public abstract class Sprite {
             vY *= -1;
         }
 
-    }
-
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public double getX() {
