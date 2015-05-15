@@ -50,11 +50,12 @@ public abstract class Sprite {
         }else{
             vY = 0;
         }
-
-        if(level.touches(this) == 0){
-            vX *= -1;
-        }else if(level.touches(this) == 1){
+        int touch = level.touches(this);
+        if(touch == 0 || touch == 2){
             vY *= -1;
+
+        }else if(touch == 1 || touch == 3){
+            vX *= -1;
         }
 
         x += vX;
