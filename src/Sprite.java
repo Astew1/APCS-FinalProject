@@ -55,6 +55,10 @@ public abstract class Sprite {
             vX *= -1;
         }else if(level.touches(this) == 1){
             vY *= -1;
+            if(this instanceof Player)
+                ((Player)this).setJumpCount(0);
+            if(this instanceof Player)
+                ((Player)this).setJumpCount(0);
         }
 
         x += vX;
