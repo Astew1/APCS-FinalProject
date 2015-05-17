@@ -9,7 +9,9 @@ public class Level {
     private ArrayList<Platform> platforms;
     public Level(){
         platforms = new ArrayList<Platform>();
-        platforms.add(new Platform(200,400, 500, 300));
+        platforms.add(new Platform(200,600, 400, 300));
+        platforms.add(new Platform(600, 700, 150, 200));
+        platforms.add(new Platform(750, 450, 250, 450));
     }
 
     public Platform touches(Sprite s){

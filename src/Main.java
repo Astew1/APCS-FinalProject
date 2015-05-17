@@ -12,10 +12,11 @@ public class Main extends JPanel implements KeyListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();     //SCREEN DIMENSIONS FROM THIS ARE 1440 | 900  (WIDTH | HEIGHT)
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setPreferredSize(screenSize);
+
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         final Main panel = new Main();
         frame.add(panel);
@@ -24,8 +25,9 @@ public class Main extends JPanel implements KeyListener {
         Timer t = new Timer(35, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.update();
                 panel.repaint();
+                panel.update();
+
             }
         });
 

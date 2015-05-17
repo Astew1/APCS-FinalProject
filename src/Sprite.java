@@ -13,11 +13,13 @@ public abstract class Sprite {
     private ImageObserver observer;
     private final int maxVX = 100;
     private final int maxVY = 100;
+    private boolean hasBouncedOnPlatform;
 
     public Sprite(BufferedImage image, int w, int h){
         this.image = image;
         this.w = w;
         this.h = h;
+        this.hasBouncedOnPlatform = false;
 
         vX = 0;
         vY = 0;
@@ -61,8 +63,11 @@ public abstract class Sprite {
         Platform touches = level.touches(this);
         if(touches!=null) {
             int touch = touches.whichSideTouches(this);
-            if (touch == 0)                    //hit on the bottom
+            if (touch == 0) {                    //hit on the bottom
+                
                 vY *= -1;
+                hasBouncedOnPlatform = true;
+            }
             if (touch == 1)                    //hit on right
                 vX *= -1;
             if (touch == 2)                    //hit on top
@@ -115,6 +120,14 @@ public abstract class Sprite {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean resetBounces(){
+        if(hasBouncedOnPlatform) {
+            hasBouncedOnPlatform = false;
+            return true;
+        }
+        return false;
     }
 
     public double getX() {

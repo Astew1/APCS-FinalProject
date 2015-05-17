@@ -118,7 +118,7 @@ public class Platform {
         Point sCen = new Point((int)( s.getX() + (s.getWidth() / 2 )), (int)( s.getY() + ( s.getHeight() / 2 )));
         Rectangle boundRect = new Rectangle((int)(x-sRad), (int)(y-sRad), (int)(width+s.getHeight()), (int)(height+s.getHeight()));
         Line2D top, left, right, bot;
-        Line2D sPath = new Line2D.Double(sCen.getX()-s.getvX(), sCen.getY()-s.getvY(), sCen.getX(), sCen.getY());
+        Line2D sPath = new Line2D.Double(sCen.getX()- (2*s.getvX()), sCen.getY()-(2*s.getvY()), sCen.getX(), sCen.getY());
 
 
         top = new Line2D.Double(boundRect.getX(), boundRect.getY(), boundRect.getX()+boundRect.getWidth(), boundRect.getY());
@@ -134,7 +134,7 @@ public class Platform {
             return 2;
         if(right.intersectsLine(sPath))
             return 3;
-        System.out.println("this should never happen!");
+        System.out.println("this should never happen!, inside whichSideTouches");
         return -1;
     }
 
@@ -164,12 +164,12 @@ public class Platform {
     }
 
     public void draw(Graphics2D g2){
-        Rectangle boundRect = new Rectangle((int)(x-sRadius), (int)(y-sRadius), (int)(thisRect.getWidth()+sRadius*2), (int)(thisRect.getHeight()+sRadius*2));
+//        Rectangle boundRect = new Rectangle((int)(x-sRadius), (int)(y-sRadius), (int)(thisRect.getWidth()+sRadius*2), (int)(thisRect.getHeight()+sRadius*2));
         g2.setColor(Color.BLACK);
 //        g2.fillRect(x, y, width, height);
         g2.fill(thisRect);
-        g2.setColor(Color.GREEN);
-        g2.draw(boundRect);
+//        g2.setColor(Color.GREEN);
+//        g2.draw(boundRect);
     }
 }
 
