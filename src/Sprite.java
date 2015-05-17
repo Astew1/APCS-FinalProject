@@ -64,9 +64,9 @@ public abstract class Sprite {
         if(touches!=null) {
             int touch = touches.whichSideTouches(this);
             if (touch == 0) {                    //hit on the bottom
-                
+
                 vY *= -1;
-                hasBouncedOnPlatform = true;
+                hasBouncedOnPlatform = true;                    //stuff with this allows for bouncing on platforms
             }
             if (touch == 1)                    //hit on right
                 vX *= -1;
