@@ -9,6 +9,7 @@ public class Platform {
 
     private int x, y, width, height;
     private Rectangle thisRect;
+    private int sRadius;
 
 
     public Platform(int x, int y, int width, int height) {
@@ -17,6 +18,7 @@ public class Platform {
         this.width = width;
         this.height = height;
         thisRect = new Rectangle(x, y, width, height);
+        sRadius = -1;
 
     }
 
@@ -35,36 +37,23 @@ public class Platform {
 //    }
 
                                 //This method will only work if the ball's velocity will never allow it to go completely through the platform - it has to be inside at one point
-    public int touches(Sprite s){           //test to see if the ball is touching the platform
+    public Platform touches(Sprite s){           //test to see if the ball is touching the platform
                                             //key: -1 = NOT touching, 0 = top, 1 = left, 2 = bottom, 3 = right
 
         Point spriteCenter = new Point((int)( s.getX() + (s.getWidth() / 2 )), (int)( s.getY() + ( s.getHeight() / 2 )));
 
         double sRad = s.getHeight()/2;           //THIS ASSUMES THE SPRITE IS A CIRCLE!!!!!!!!!!!!!!!!!!!!
+        if(sRadius<0)
+            sRadius = (int)sRad;
 
-        Rectangle boundRect = new Rectangle((int)(s.getX()-sRad), (int)(s.getY()-sRad), width+s.getHeight(), height+s.getHeight());
+        Rectangle boundRect = new Rectangle((int)(x-sRad), (int)(y-sRad), (int)(thisRect.getWidth()+s.getHeight()), (int)(thisRect.getHeight()+s.getHeight()));
 
         if(boundRect.contains(spriteCenter)){
 
-            Line2D top, left, right, bot;
-            Line2D sPath = new Line2D.Double(s.getX()-s.getvX(), s.getY()-s.getvY(), s.getX(), s.getY());
-
-            top = new Line2D.Double(boundRect.getX(), boundRect.getY(), boundRect.getX()+boundRect.getWidth(), boundRect.getY());
-            left = new Line2D.Double(boundRect.getX(), boundRect.getY(), boundRect.getX(), boundRect.getY()+boundRect.getHeight());
-            right = new Line2D.Double(boundRect.getX()+boundRect.getWidth(), boundRect.getY(), boundRect.getX()+boundRect.getWidth(), boundRect.getY()+boundRect.getHeight());
-            bot = new Line2D.Double(boundRect.getX(), boundRect.getY()+boundRect.getHeight(), boundRect.getX()+boundRect.getWidth(), boundRect.getY()+boundRect.getHeight());
-
-            if(top.intersectsLine(sPath))
-                return 0;
-            if(left.intersectsLine(sPath))
-                return 1;
-            if(bot.intersectsLine(sPath))
-                return 2;
-            if(right.intersectsLine(sPath))
-                return 3;
+            return this;
         }
 
-        return -1;
+        return null;
 
 
 // int spriteX = (int)s.getX();
@@ -124,10 +113,63 @@ public class Platform {
 
     }
 
+    public int whichSideTouches(Sprite s){
+        double sRad = s.getHeight()/2;
+        Point sCen = new Point((int)( s.getX() + (s.getWidth() / 2 )), (int)( s.getY() + ( s.getHeight() / 2 )));
+        Rectangle boundRect = new Rectangle((int)(x-sRad), (int)(y-sRad), (int)(width+s.getHeight()), (int)(height+s.getHeight()));
+        Line2D top, left, right, bot;
+        Line2D sPath = new Line2D.Double(sCen.getX()-s.getvX(), sCen.getY()-s.getvY(), sCen.getX(), sCen.getY());
+
+
+        top = new Line2D.Double(boundRect.getX(), boundRect.getY(), boundRect.getX()+boundRect.getWidth(), boundRect.getY());
+        left = new Line2D.Double(boundRect.getX(), boundRect.getY(), boundRect.getX(), boundRect.getY()+boundRect.getHeight());
+        right = new Line2D.Double(boundRect.getX()+boundRect.getWidth(), boundRect.getY(), boundRect.getX()+boundRect.getWidth(), boundRect.getY()+boundRect.getHeight());
+        bot = new Line2D.Double(boundRect.getX(), boundRect.getY()+boundRect.getHeight(), boundRect.getX()+boundRect.getWidth(), boundRect.getY()+boundRect.getHeight());
+
+        if(top.intersectsLine(sPath))
+            return 0;
+        if(left.intersectsLine(sPath))
+            return 1;
+        if(bot.intersectsLine(sPath))
+            return 2;
+        if(right.intersectsLine(sPath))
+            return 3;
+        System.out.println("this should never happen!");
+        return -1;
+    }
+
+    public Point getBouncePos(int side, Sprite s){      //0 = top, 1 = left, 2 = bot, 3 = right
+        switch(side){
+            case 0:
+                return new Point((int) s.getX(), y - s.getHeight() - 1);
+
+
+            case 1:
+                return new Point(x - s.getWidth() - 1, (int) s.getY());
+
+
+            case 2:
+                return new Point((int) s.getX(), y + height + 1);
+
+
+            case 3:
+                return new Point(x + width + 1, (int) s.getY());
+            default:
+                System.out.println("this error should never happen - inside Platform.getBouncePos()");
+                return new Point(200, 200);
+
+
+
+        }
+    }
+
     public void draw(Graphics2D g2){
+        Rectangle boundRect = new Rectangle((int)(x-sRadius), (int)(y-sRadius), (int)(thisRect.getWidth()+sRadius*2), (int)(thisRect.getHeight()+sRadius*2));
         g2.setColor(Color.BLACK);
 //        g2.fillRect(x, y, width, height);
         g2.fill(thisRect);
+        g2.setColor(Color.GREEN);
+        g2.draw(boundRect);
     }
 }
 

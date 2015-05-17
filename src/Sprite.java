@@ -53,17 +53,29 @@ public abstract class Sprite {
             vY = 0;
         }
 
+//        if(vX>w/2.0)            //THIS BIT ALSO ASSUMES IT IS A CIRCLE
+//            vX = w/2.0;
+//        if(vY>w/2.0)
+//            vY = h/2.0;
 
-        int touch = level.touches(this);
-        if(touch==0)                    //hit on the bottom
-            vY*=-1;
-        if(touch==1)                    //hit on right
-            vX*=-1;
-        if(touch==2)                    //hit on top
-            vY*=-1;
-        if(touch==3)                    //hit on left
-            vX*=-1;
+        Platform touches = level.touches(this);
+        if(touches!=null) {
+            int touch = touches.whichSideTouches(this);
+            if (touch == 0)                    //hit on the bottom
+                vY *= -1;
+            if (touch == 1)                    //hit on right
+                vX *= -1;
+            if (touch == 2)                    //hit on top
+                vY *= -1;
+            if (touch == 3)                    //hit on left
+                vX *= -1;
+            if (touch != -1) {
+                Point newPos = touches.getBouncePos(touch, this);
+                this.setX((int) newPos.getX());
+                this.setY((int) newPos.getY());
+            }
 
+        }
 
         x += vX;
         y += vY;

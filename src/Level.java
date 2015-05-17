@@ -9,16 +9,16 @@ public class Level {
     private ArrayList<Platform> platforms;
     public Level(){
         platforms = new ArrayList<Platform>();
-        platforms.add(new Platform(200,700, 500, 60));
+        platforms.add(new Platform(200,400, 500, 300));
     }
 
-    public int touches(Sprite s){
+    public Platform touches(Sprite s){
         for (Platform platform : platforms) {
-            if(platform.touches(s) != -1){
+            if(platform.touches(s) != null){
                 return platform.touches(s);
             }
         }
-        return -1;
+        return null;
     }
 
     public void draw(Graphics2D g2){
@@ -26,5 +26,14 @@ public class Level {
             platform.draw(g2);
         }
     }
+
+//    public Point getBallPosFromPlatform(int side, Sprite s){      //this could be made more efficient
+//        for(Platform plat:platforms){
+//            if(plat.touches(s) != -1)
+//                return plat.getBouncePos(side, s);
+//        }
+//        System.out.println("this should never happen, inside Level.getBallPosFromPlatform()");
+//        return new Point(200, 200);
+//    }
 
 }
