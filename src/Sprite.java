@@ -11,6 +11,8 @@ public abstract class Sprite {
     private double x, y, vX, vY;
     private BufferedImage image;
     private ImageObserver observer;
+    private final int maxVX = 100;
+    private final int maxVY = 100;
 
     public Sprite(BufferedImage image, int w, int h){
         this.image = image;
@@ -50,13 +52,18 @@ public abstract class Sprite {
         }else{
             vY = 0;
         }
-        int touch = level.touches(this);
-        if(touch == 0 || touch == 2){
-            vY *= -1;
 
-        }else if(touch == 1 || touch == 3){
-            vX *= -1;
-        }
+
+        int touch = level.touches(this);
+        if(touch==0)                    //hit on the bottom
+            vY*=-1;
+        if(touch==1)                    //hit on right
+            vX*=-1;
+        if(touch==2)                    //hit on top
+            vY*=-1;
+        if(touch==3)                    //hit on left
+            vX*=-1;
+
 
         x += vX;
         y += vY;
@@ -77,6 +84,11 @@ public abstract class Sprite {
             y = height - h;
             vY *= -1;
         }
+        if(vX>maxVX)
+            vX = maxVX;
+        if(vY>maxVY)
+            vY = maxVY;
+
 
     }
 
