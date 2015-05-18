@@ -10,6 +10,8 @@ public class Level {
     public Level(){
         platforms = new ArrayList<Platform>();
         platforms.add(new Platform(200,700, 500, 60));
+        platforms.add(new Platform(600,500, 500, 60));
+        platforms.add(new Platform(1000,300, 500, 60));
     }
 
     public int touches(Sprite s){
