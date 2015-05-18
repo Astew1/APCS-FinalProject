@@ -66,14 +66,8 @@ public class Main extends JPanel implements KeyListener {
             p.jump();
             jump = false;
         }
-        if (keys[0]) {
-//            s.setvY(s.getvY() - 4);
-        }
         if (keys[1]) {
             p.setvX(p.getvX() - 2);
-        }
-        if (keys[2]) {
-            p.setvY(p.getvY() + 2);
         }
         if (keys[3]) {
             p.setvX(p.getvX() + 2);

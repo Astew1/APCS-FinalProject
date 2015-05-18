@@ -38,7 +38,7 @@ public abstract class Sprite {
     }
 
     public void update(int width, int height, Level level){
-        vY += 3;
+
         if(vX > .6){
             vX -=.6;
         }else if(vX < -.6){
@@ -55,26 +55,16 @@ public abstract class Sprite {
             vY = 0;
         }
 
-        if(level.touches(this) == 0){
-            vX *= -1;
-        }else if(level.touches(this) == 1){
-            vY *= -1;
-            if(this instanceof Player)
-                ((Player)this).setJumpCount(0);
-            if(this instanceof Player)
-                ((Player)this).setJumpCount(0);
-//        if(vX>w/2.0)            //THIS BIT ALSO ASSUMES IT IS A CIRCLE
-//            vX = w/2.0;
-//        if(vY>w/2.0)
-//            vY = h/2.0;
-
         Platform touches = level.touches(this);
         if(touches!=null) {
             int touch = touches.whichSideTouches(this);
             if (touch == 0) {                    //hit on the bottom
+                if(vY <= 3){
+                    vY = 0;
+                }
 
                 vY *= -1;
-                hasBouncedOnPlatform = true;                    //stuff with this allows for bouncing on platforms
+                hasBouncedOnPlatform = true;    //stuff with this allows for bouncing on platforms
             }
             if (touch == 1)                    //hit on right
                 vX *= -1;
@@ -88,9 +78,9 @@ public abstract class Sprite {
                 this.setY((int) newPos.getY());
             }
 
->>>>>>> 473e507b737b2a7d7d64c3c2115ebf15c1642e11
         }
 
+        vY += 3;
         x += vX;
         y += vY;
 
@@ -101,8 +91,6 @@ public abstract class Sprite {
             x = width - w;
             vX *= -1;
         }
-
-
         if(y < 0){
             y = 0;
             vY *= -1;
@@ -110,9 +98,9 @@ public abstract class Sprite {
             y = height - h;
             vY *= -1;
         }
-        if(vX>maxVX)
+        if(vX > maxVX)
             vX = maxVX;
-        if(vY>maxVY)
+        if(vY > maxVY)
             vY = maxVY;
 
 
