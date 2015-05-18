@@ -15,7 +15,7 @@ public class Player extends Sprite {
     @Override
     public void update(int width, int height, Level level) {
         super.update(width, height, level);
-        if(getY() >= height - getHeight()){
+        if(getY() >= height - getHeight() || resetBounces()){           //for bouncing on platforms
             jumpCount = 0;
         }
     }

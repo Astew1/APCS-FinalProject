@@ -11,11 +11,15 @@ public abstract class Sprite {
     private double x, y, vX, vY;
     private BufferedImage image;
     private ImageObserver observer;
+    private final int maxVX = 100;
+    private final int maxVY = 100;
+    private boolean hasBouncedOnPlatform;
 
     public Sprite(BufferedImage image, int w, int h){
         this.image = image;
         this.w = w;
         this.h = h;
+        this.hasBouncedOnPlatform = false;
 
         vX = 0;
         vY = 0;
@@ -59,6 +63,32 @@ public abstract class Sprite {
                 ((Player)this).setJumpCount(0);
             if(this instanceof Player)
                 ((Player)this).setJumpCount(0);
+//        if(vX>w/2.0)            //THIS BIT ALSO ASSUMES IT IS A CIRCLE
+//            vX = w/2.0;
+//        if(vY>w/2.0)
+//            vY = h/2.0;
+
+        Platform touches = level.touches(this);
+        if(touches!=null) {
+            int touch = touches.whichSideTouches(this);
+            if (touch == 0) {                    //hit on the bottom
+
+                vY *= -1;
+                hasBouncedOnPlatform = true;                    //stuff with this allows for bouncing on platforms
+            }
+            if (touch == 1)                    //hit on right
+                vX *= -1;
+            if (touch == 2)                    //hit on top
+                vY *= -1;
+            if (touch == 3)                    //hit on left
+                vX *= -1;
+            if (touch != -1) {
+                Point newPos = touches.getBouncePos(touch, this);
+                this.setX((int) newPos.getX());
+                this.setY((int) newPos.getY());
+            }
+
+>>>>>>> 473e507b737b2a7d7d64c3c2115ebf15c1642e11
         }
 
         x += vX;
@@ -80,6 +110,11 @@ public abstract class Sprite {
             y = height - h;
             vY *= -1;
         }
+        if(vX>maxVX)
+            vX = maxVX;
+        if(vY>maxVY)
+            vY = maxVY;
+
 
     }
 
@@ -94,6 +129,14 @@ public abstract class Sprite {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean resetBounces(){
+        if(hasBouncedOnPlatform) {
+            hasBouncedOnPlatform = false;
+            return true;
+        }
+        return false;
     }
 
     public double getX() {
