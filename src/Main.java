@@ -16,6 +16,7 @@ public class Main extends JPanel implements KeyListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setPreferredSize(screenSize);
+        frame.setResizable(false);
 
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         final Main panel = new Main();
@@ -39,6 +40,9 @@ public class Main extends JPanel implements KeyListener {
     //w,a,s,d
     private boolean jump;
     Level level;
+    private int theorX;         //the position on the theoretical screen
+    private final int theorMax = 1440*3;     //arbitrary: the max width of the screen is 3* the current width (3 real screens is the whole level)
+    private final int playerSideBuffer = 150;       //the distance to the side of the screen before it should start scrolling
 
     public Main() {
         addKeyListener(this);
@@ -51,14 +55,15 @@ public class Main extends JPanel implements KeyListener {
             keys[i] = false;
         }
         p = new Player(MyUtils.getImage("circle.png", 30, 30), 30, 30);
+        theorX = 0;
     }
 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.clearRect(0, 0, getWidth(), getHeight());
         p.draw(g2);
-        level.draw(g2);
-        g2.drawString("vX: " + (int)p.getvX() + ", vY: " + (int)p.getvY(), 100, 100);
+        level.draw(g2, theorX);
+        g2.drawString("DEBUG: vX: " + (int)p.getvX() + ", vY: " + (int)p.getvY(), 100, 100);
 
     }
 
@@ -74,6 +79,34 @@ public class Main extends JPanel implements KeyListener {
             p.setvX(p.getvX() + 2);
         }
         p.update(getWidth(), getHeight(), level);
+
+        // /MOVE THE THEORX based on the ball pos
+        if(p.getX()<playerSideBuffer){       //move theorX left if not at 0
+            int ballDiff = (int)(playerSideBuffer -p.getX());
+            if(theorX>0) {
+                if (theorX - ballDiff > 0) {
+                    p.setX(playerSideBuffer);
+                    theorX -= ballDiff;
+                }
+                else{
+                    p.setX(playerSideBuffer-theorX);
+                    theorX = 0;
+                }
+            }
+        }
+        else if (p.getX()>1440-playerSideBuffer){//move theorX right if not at theorMax.
+            int ballDiff = (int)(p.getX()-1240);
+            if(theorX<theorMax) {
+                if (ballDiff + theorX < theorMax) {
+                    theorX += ballDiff;
+                    p.setX(1440-playerSideBuffer);
+                }
+                else{
+                    p.setX(1440-playerSideBuffer + (theorMax-theorX));
+                    theorX = theorMax;
+                }
+            }
+        }
     }
 
     @Override

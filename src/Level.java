@@ -23,9 +23,9 @@ public class Level {
         return null;
     }
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2, int translateX){
         for (Platform platform : platforms) {
-            platform.draw(g2);
+            platform.draw(g2, translateX);
         }
     }
 

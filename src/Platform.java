@@ -7,7 +7,7 @@ import java.awt.geom.Line2D;
  */
 public class Platform {
 
-    private int x, y, width, height;
+    private int x, y, width, height, originalX;
     private Rectangle thisRect;
     private int sRadius;
 
@@ -15,6 +15,7 @@ public class Platform {
     public Platform(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
+        this.originalX = x;
         this.width = width;
         this.height = height;
         thisRect = new Rectangle(x, y, width, height);
@@ -46,8 +47,8 @@ public class Platform {
         if(sRadius<0)
             sRadius = (int)sRad;
 
-        Rectangle boundRect = new Rectangle((int)(x-sRad), (int)(y-sRad), (int)(thisRect.getWidth()+s.getHeight()), (int)(thisRect.getHeight()+s.getHeight()));
-
+        Rectangle boundRect = new Rectangle((int)(x-sRad+1), (int)(y-sRad+1), (int)(width+s.getHeight()-1), (int)(height+s.getHeight()-1));
+        
         if(boundRect.contains(spriteCenter)){
 
             return this;
@@ -116,9 +117,9 @@ public class Platform {
     public int whichSideTouches(Sprite s){
         double sRad = s.getHeight()/2;
         Point sCen = new Point((int)( s.getX() + (s.getWidth() / 2 )), (int)( s.getY() + ( s.getHeight() / 2 )));
-        Rectangle boundRect = new Rectangle((int)(x-sRad), (int)(y-sRad), (int)(width+s.getHeight()), (int)(height+s.getHeight()));
+        Rectangle boundRect = new Rectangle((int)(x-sRad+1), (int)(y-sRad+1), (int)(width+s.getHeight()-1), (int)(height+s.getHeight()-1));
         Line2D top, left, right, bot;
-        Line2D sPath = new Line2D.Double(sCen.getX()- (2*s.getvX()), sCen.getY()-(2*s.getvY()), sCen.getX(), sCen.getY());
+        Line2D sPath = new Line2D.Double(sCen.getX()- (3*s.getvX()), sCen.getY()-(3*s.getvY()), sCen.getX(), sCen.getY());
 
 
         top = new Line2D.Double(boundRect.getX(), boundRect.getY(), boundRect.getX()+boundRect.getWidth(), boundRect.getY());
@@ -163,11 +164,12 @@ public class Platform {
         }
     }
 
-    public void draw(Graphics2D g2){
-//        Rectangle boundRect = new Rectangle((int)(x-sRadius), (int)(y-sRadius), (int)(thisRect.getWidth()+sRadius*2), (int)(thisRect.getHeight()+sRadius*2));
+    public void draw(Graphics2D g2, int translateX){
+        Rectangle theoreticalRectangle = new Rectangle((int)thisRect.getX()-translateX, (int)thisRect.getY(), (int)thisRect.getWidth(), (int)thisRect.getHeight());
+        x = originalX - translateX;
         g2.setColor(Color.BLACK);
 //        g2.fillRect(x, y, width, height);
-        g2.fill(thisRect);
+        g2.fill(theoreticalRectangle);
 //        g2.setColor(Color.GREEN);
 //        g2.draw(boundRect);
     }
