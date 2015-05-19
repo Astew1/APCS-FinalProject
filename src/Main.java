@@ -58,6 +58,7 @@ public class Main extends JPanel implements KeyListener {
         g2.clearRect(0, 0, getWidth(), getHeight());
         p.draw(g2);
         level.draw(g2);
+        g2.drawString("vX: " + (int)p.getvX() + ", vY: " + (int)p.getvY(), 100, 100);
 
     }
 

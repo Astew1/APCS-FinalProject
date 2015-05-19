@@ -54,6 +54,8 @@ public abstract class Sprite {
         }else{
             vY = 0;
         }
+        vY-= .01* vY;       //drag
+        vX-= .01* vX;
 
         Platform touches = level.touches(this);
         if(touches!=null) {
