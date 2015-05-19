@@ -12,6 +12,9 @@ public class Level {
         platforms.add(new Platform(200,700, 500, 60));
         platforms.add(new Platform(600,500, 500, 60));
         platforms.add(new Platform(1000,300, 500, 60));
+        for (int i = 0; i < 20; i++) {
+            platforms.add(new Platform((int)(Math.random()*(1440*3)), (int)(Math.random()*800), 500, 60));
+        }
     }
 
     public Platform touches(Sprite s){

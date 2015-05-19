@@ -41,7 +41,7 @@ public class Main extends JPanel implements KeyListener {
     private boolean jump;
     Level level;
     private int theorX;         //the position on the theoretical screen
-    private final int theorMax = 1440*3;     //arbitrary: the max width of the screen is 3* the current width (3 real screens is the whole level)
+    private final int theorMax = 1440*2;     //arbitrary: the max width of the screen is 3* the current width (3 real screens is the whole level)
     private final int playerSideBuffer = 150;       //the distance to the side of the screen before it should start scrolling
 
     public Main() {

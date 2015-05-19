@@ -48,7 +48,7 @@ public class Platform {
             sRadius = (int)sRad;
 
         Rectangle boundRect = new Rectangle((int)(x-sRad+1), (int)(y-sRad+1), (int)(width+s.getHeight()-1), (int)(height+s.getHeight()-1));
-        
+
         if(boundRect.contains(spriteCenter)){
 
             return this;
