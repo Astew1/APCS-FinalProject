@@ -21,7 +21,9 @@ public class Player extends Sprite {
     }
 
     public void jump(){
+
         if(jumpCount < 2) {
+            setY((int)getY() - 20);
             setvY(-35);
             jumpCount++;
         }

@@ -94,15 +94,15 @@ public class Main extends JPanel implements KeyListener {
                 }
             }
         }
-        else if (p.getX()>1440-playerSideBuffer){//move theorX right if not at theorMax.
-            int ballDiff = (int)(p.getX()-1240);
-            if(theorX<theorMax) {
+        else if (p.getX() > 1440 - playerSideBuffer){//move theorX right if not at theorMax.
+            int ballDiff = (int)(p.getX() - 1240);
+            if(theorX < theorMax) {
                 if (ballDiff + theorX < theorMax) {
                     theorX += ballDiff;
-                    p.setX(1440-playerSideBuffer);
+                    p.setX(1440 - playerSideBuffer);
                 }
                 else{
-                    p.setX(1440-playerSideBuffer + (theorMax-theorX));
+                    p.setX(1440 - playerSideBuffer + (theorMax - theorX));
                     theorX = theorMax;
                 }
             }
